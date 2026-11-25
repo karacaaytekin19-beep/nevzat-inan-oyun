@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEVZAT INAN OYUN</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+:root{--bg:#f5f6fa;--dark:#171923;--purple:#7048e8;--muted:#777d8d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Inter,Arial;color:var(--dark)}
+header{height:72px;background:white;display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:sticky;top:0;z-index:20;box-shadow:0 2px 15px #15172a0c}
+.logo{font-size:21px;font-weight:900;letter-spacing:-1px}
+.logo span{color:var(--purple)}
+.search{width:min(420px,42vw);position:relative}
+.search input{width:100%;border:0;background:#f1f2f7;border-radius:13px;padding:13px 18px;font-size:14px;outline:none}
+.search input:focus{box-shadow:0 0 0 2px #7048e855}
+.header-right{font-size:12px;color:#777d8d;font-weight:700}
+.layout{max-width:1400px;margin:auto;padding:25px 4%}
+.hero{background:linear-gradient(110deg,#38217f,#7048e8 60%,#a18aff);border-radius:23px;padding:34px 38px;color:white;position:relative;overflow:hidden}
+.hero:after{content:"🎮";position:absolute;right:8%;top:10px;font-size:120px;opacity:.2;transform:rotate(-15deg)}
+.hero h1{font-size:clamp(27px,4vw,43px);margin:0 0 10px;letter-spacing:-2px}
+.hero p{margin:0;color:#e6ddff;font-size:14px;max-width:470px;line-height:1.7}
+.categories{display:flex;gap:9px;overflow-x:auto;padding:22px 0 12px;scrollbar-width:thin}
+.cat{border:0;background:white;padding:11px 17px;border-radius:30px;white-space:nowrap;font-weight:700;font-size:12px;color:#555b6c;cursor:pointer;transition:.2s}
+.cat:hover,.cat.active{background:var(--purple);color:white}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:22px 0 16px}
+.section-head h2{font-size:20px;margin:0;letter-spacing:-.6px}
+.section-head span{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:17px}
+.game{background:white;border-radius:15px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 3px 12px #1b21400a}
+.game:hover{transform:translateY(-5px);box-shadow:0 12px 30px #22243b18}
+.game img{width:100%;aspect-ratio:1.15;object-fit:cover;display:block;background:#e7e8ef}
+.game h3{font-size:13px;margin:0;padding:12px 12px 14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.status{text-align:center;padding:35px 10px;color:#777d8d;font-size:14px;grid-column:1/-1}
+#more{display:block;margin:30px auto 15px;background:var(--purple);color:white;border:0;border-radius:12px;padding:14px 28px;font-weight:800;cursor:pointer}
+#more:disabled{opacity:.5;cursor:wait}
+#player{display:none;position:fixed;inset:0;background:#11131b;z-index:50;padding:16px}
+.player-top{height:52px;display:flex;align-items:center;justify-content:space-between;color:white;gap:10px}
+.player-top strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.player-buttons{display:flex;gap:8px}
+.player-buttons button{border:0;border-radius:9px;padding:10px 14px;font-weight:800;cursor:pointer}
+#close{background:#303444;color:white}
+#fullscreen{background:var(--purple);color:white}
+#gameFrame{width:100%;height:calc(100% - 65px);border:0;border-radius:12px;background:#fff}
+footer{text-align:center;padding:35px;color:#9297a5;font-size:12px}
+@media(max-width:1050px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:750px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.hero{padding:28px 22px}.hero:after{right:0;font-size:75px}.header-right{display:none}}
+@media(max-width:480px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}header{padding:0 15px}.logo{font-size:16px}.search{width:43vw}.layout{padding:18px 13px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">NEVZAT <span>INAN</span> OYUN</div>
+  <div class="search"><input id="search" placeholder="Oyun ara..." autocomplete="off"></div>
+  <div class="header-right">ÜCRETSİZ OYUNLAR</div>
+</header>
+
+<main class="layout">
+  <section class="hero">
+    <h1>Binlerce Oyun, Tek Adres!</h1>
+    <p>En sevdiğin oyunları keşfet. Yarış, bulmaca, spor ve daha fazlası. Oyununu seç ve hemen oyna!</p>
+  </section>
+
+  <nav class="categories" id="categories">
+    <button class="cat active" data-cat="">Tümü</button>
+    <button class="cat" data-cat="action">Aksiyon</button>
+    <button class="cat" data-cat="adventure">Macera</button>
+    <button class="cat" data-cat="puzzle">Bulmaca</button>
+    <button class="cat" data-cat="racing">Yarış</button>
+    <button class="cat" data-cat="sports">Spor</button>
+    <button class="cat" data-cat="arcade">Atari</button>
+    <button class="cat" data-cat="strategy">Strateji</button>
+    <button class="cat" data-cat="casual">Eğlence</button>
+    <button class="cat" data-cat="kids">Çocuk</button>
+  </nav>
+
+  <div class="section-head">
+    <h2 id="heading">Popüler Oyunlar</h2>
+    <span id="count">Oyunlar yükleniyor...</span>
+  </div>
+
+  <section class="grid" id="games">
+    <div class="status">Oyun kataloğu yükleniyor...</div>
+  </section>
+  <button id="more" style="display:none">DAHA FAZLA OYUN YÜKLE</button>
+</main>
+
+<footer>NEVZAT INAN OYUN · İYİ EĞLENCELER</footer>
+
+<div id="player">
+  <div class="player-top">
+    <strong id="playingTitle">Oyun</strong>
+    <div class="player-buttons">
+      <button id="fullscreen">⛶ Tam ekran</button>
+      <button id="close">✕ Kapat</button>
+    </div>
+  </div>
+  <iframe id="gameFrame" allow="fullscreen; autoplay; gamepad" title="Oyun"></iframe>
+</div>
+
+<script>
+/*
+  GAMEPIX YAYINCI HESABINDAN ALDIĞIN SID KODUNU BURAYA YAZ.
+  GamePix'in oyunlarını kullanmak için dağıtım izni gerekir.
+*/
+const SID = "SID_KODUNU_BURAYA_YAZ";
+
+const API = "https://games.gamepix.com";
+const grid = document.getElementById("games");
+const more = document.getElementById("more");
+const count = document.getElementById("count");
+const search = document.getElementById("search");
+
+let allGames = [];
+let shownGames = [];
+let offset = 0;
+let loading = false;
+let activeCategory = "";
+let searchText = "";
+const LIMIT = 1000;
+
+// Basit yaşa uygun olmayan başlık filtresi.
+// Bu filtre her oyunun içeriğini garanti etmez.
+const blockedWords = [
+ "casino","gambling","betting","poker","slot machine",
+ "adult","18+","explicit"
+];
+
+function allowed(game){
+ const text = [
+  game.title,game.description,game.category,
+  ...(game.categories||[])
+ ].join(" ").toLowerCase();
+ return !blockedWords.some(word=>text.includes(word));
+}
+
+function getCategoryText(game){
+ const raw = String(game.category||"").toLowerCase();
+ const map = {
+  action:"Aksiyon",adventure:"Macera",puzzle:"Bulmaca",
+  racing:"Yarış",sports:"Spor",arcade:"Atari",
+  strategy:"Strateji",casual:"Eğlence",kids:"Çocuk",
+  simulation:"Simülasyon",multiplayer:"Çok oyunculu"
+ };
+ return map[raw]||"Oyun";
+}
+
+function matches(game){
+ const title = String(game.title||"").toLowerCase();
+ const description = String(game.description||"").toLowerCase();
+ const category = String(game.category||"").toLowerCase();
+ const query = searchText.toLowerCase();
+
+ const searchMatch = !query ||
+  title.includes(query) ||
+  description.includes(query) ||
+  category.includes(query);
+
+ const categoryMatch = !activeCategory ||
+  category.includes(activeCategory) ||
+  (game.categories||[]).some(c=>String(c).toLowerCase().includes(activeCategory));
+
+ return searchMatch && categoryMatch;
+}
+
+function render(){
+ shownGames = allGames.filter(matches);
+ grid.innerHTML = "";
+
+ if(!shownGames.length){
+  grid.innerHTML='<div class="status">Bu aramayla eşleşen oyun bulunamadı.</div>';
+ }else{
+  const fragment = document.createDocumentFragment();
+  shownGames.forEach(game=>{
+   const card=document.createElement("article");
+   card.className="game";
+   const img=document.createElement("img");
+   img.loading="lazy";
+   img.src=game.thumbnailUrl||game.thumbnailUrl100||"";
+   img.alt=game.title||"Oyun";
+   img.onerror=()=>{img.style.visibility="hidden";};
+   const title=document.createElement("h3");
+   title.textContent=game.title||"İsimsiz oyun";
+   card.append(img,title);
+   card.addEventListener("click",()=>openGame(game));
+   fragment.appendChild(card);
+  });
+  grid.appendChild(fragment);
+ }
+ count.textContent=shownGames.length+" oyun gösteriliyor";
+ more.style.display=allGames.length>=LIMIT?"block":"none";
+}
+
+async function loadGames(){
+ if(loading)return;
+ if(SID==="SID_KODUNU_BURAYA_YAZ"){
+  grid.innerHTML='<div class="status">Oyun kataloğunu açmak için GamePix yayıncı hesabından aldığın SID kodunu koda eklemelisin.</div>';
+  count.textContent="Yayıncı bağlantısı bekleniyor";
+  return;
+ }
+
+ loading=true;
+ more.disabled=true;
+ more.textContent="YÜKLENİYOR...";
+
+ try{
+  const url=new URL(API+"/games");
+  url.searchParams.set("sid",SID);
+  url.searchParams.set("limit",LIMIT);
+  url.searchParams.set("offset",offset);
+  url.searchParams.set("order","q");
+
+  const response=await fetch(url);
+  if(!response.ok)throw new Error("Oyun kataloğu yanıt vermedi.");
+  const result=await response.json();
+
+  const list=Array.isArray(result)?result:
+    (result.games||result.data||[]);
+
+  const safe=list.filter(allowed);
+  allGames.push(...safe);
+  offset+=LIMIT;
+  render();
+
+  if(!list.length){
+   more.style.display="none";
+   if(!allGames.length)grid.innerHTML='<div class="status">Şu anda oyun bulunamadı.</div>';
+  }
+ }catch(error){
+  grid.innerHTML='<div class="status">Oyunlar yüklenemedi. SID kodunu, internet bağlantını ve yayıncı hesabı izinlerini kontrol et.</div>';
+  count.textContent="Bağlantı kurulamadı";
+ }finally{
+  loading=false;
+  more.disabled=false;
+  more.textContent="DAHA FAZLA OYUN YÜKLE";
+ }
+}
+
+function openGame(game){
+ if(!game.url)return;
+ document.getElementById("playingTitle").textContent=game.title||"Oyun";
+ document.getElementById("gameFrame").src=game.url;
+ document.getElementById("player").style.display="block";
+ document.body.style.overflow="hidden";
+}
+
+function closeGame(){
+ document.getElementById("gameFrame").src="about:blank";
+ document.getElementById("player").style.display="none";
+ document.body.style.overflow="";
+}
+
+document.getElementById("close").onclick=closeGame;
+document.getElementById("fullscreen").onclick=()=>{
+ const frame=document.getElementById("gameFrame");
+ if(frame.requestFullscreen)frame.requestFullscreen();
+};
+
+more.onclick=loadGames;
+
+search.addEventListener("input",()=>{
+ searchText=search.value.trim();
+ render();
+});
+
+document.getElementById("categories").addEventListener("click",e=>{
+ const button=e.target.closest("button");
+ if(!button)return;
+ document.querySelectorAll(".cat").forEach(b=>b.classList.remove("active"));
+ button.classList.add("active");
+ activeCategory=button.dataset.cat;
+ document.getElementById("heading").textContent=button.textContent;
+ render();
+});
+
+loadGames();
+</script>
+</body>
+</html>
